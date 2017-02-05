@@ -1,0 +1,32 @@
+<html>
+<head>
+	<script src="https://fb.me/react-15.0.1.js"></script>
+    <script src="https://fb.me/react-dom-15.0.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+ 
+</head>
+<body>
+
+	<div id="sample"></div>
+	
+	<script type="text/babel">
+		
+		var MovieItem = React.createClass({
+			render:function(){
+				return(<div>
+							<h1>{this.props.title}</h1>
+							<h2>{this.props.genre}</h2>
+						</div>);
+			}
+		});
+		
+		ReactDOM.render(<div>
+							<MovieItem title='Avater' genre='Action'/>
+							<MovieItem title='Dil Chahta Hai' genre='Drama'/>
+							<MovieItem title='Anadaz apna apana' genre='Comedy'/>
+							<MovieItem title='Agnipath' genre='Action/Drama'/>
+						</div>,document.getElementById('sample'));
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+<html>
+<head>
+	<script src="https://fb.me/react-15.0.1.js"></script>
+    <script src="https://fb.me/react-dom-15.0.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+ 
+</head>
+<body>
+
+	<div id="sample"></div>
+	
+	<script type="text/babel">
+	
+		var Comment = React.createClass({
+			
+			getInitialState:function(){
+				return({editing:false});
+			},
+			edit:function(){
+				this.setState({editing:true});
+			},
+			save:function(){
+				this.props.updateComment(this.refs.txt.value,this.props.index);
+				this.setState({editing:false});
+			},
+			remove:function(){
+				this.props.removecomment(this.props.index);
+				console.log("Removing the comment");
+			},
+			renderNoraml:function(){
+				return(<div>
+							<div>{this.props.children}</div>
+							<button onClick={this.edit}>Edit</button>
+							<button onClick={this.remove}>Remove</button>
+						</div>
+				);
+			},
+			renderForm:function(){
+				return(<div>
+							<textarea ref="txt" defaultValue={this.props.children}></textarea>
+							<button onClick={this.save}>Save</button>
+						</div>
+				);
+			},
+			render:function(){
+				if(this.state.editing){
+					return this.renderForm();
+				}
+				else{
+					return this.renderNoraml();
+				}
+			}
+		});
+		
+		var Board = React.createClass({
+		
+			getInitialState : function(){
+				return {
+					comments:["First Comment","Second Comment","Third Comment"]
+				}
+			},
+			
+			removeComment:function(i){
+				console.log("Removing item at inde "+i);
+				var arr = this.state.comments;
+				arr.splice(i,1);
+				this.setState({comments:arr})
+			},
+			
+			updateComment:function(text,i){
+				console.log("Updating item at inde "+i);
+				var arr = this.state.comments;
+				arr[i] = text;
+				this.setState({comments: arr})
+			},
+			
+			add:function(text){
+				var arr = this.state.comments;
+				arr.push(text);
+				this.setState({comments:arr});
+			},
+			eachComment:function(item,i){
+									return(<Comment key={i} index={i} 
+									updateComment={this.updateComment} removecomment={this.removeComment}>{item}</Comment>);
+							},
+			
+			render:function(){
+			
+				return(<div>
+							<button onClick={this.add.bind(null,"Default text")}>Add new comment</button>
+							<div>
+								{this.state.comments.map(this.eachComment)}
+							</div>
+						</div>
+				);
+			}
+		});
+		
+		ReactDOM.render(<Board/>,document.getElementById('sample'));
+	</script>
+
+</body>
+</html>
