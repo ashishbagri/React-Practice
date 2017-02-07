@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>React + Spring</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
     <div id='root'></div>
@@ -11,21 +12,46 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
  
     <script type="text/babel">
+	
+		var Employees = [{name:'First Person', age : 10, years : 5},{name:'Second Person', age : 20, years : 10},
+							{name:'Third Person', age : 30, years : 15}];
     	var Employee = React.createClass({
     		
     		render:function(){
     		
-    			return(<div>employee</div>);
+    			return(<tr>
+							<td>{this.props.employee.name}</td>
+							<td>{this.props.employee.age}</td>
+							<td>{this.props.employee.years}</td>
+						</tr>);
     		}
-    	}),
+    	});
     	
     	var EmployeeTable = React.createClass({
     	
     		render:function(){
-    		
-    			return(<div>Employee Table</div>);
-    		
+				var arr = [];
+				this.props.employees.forEach(function(employee){
+					arr.push(<Employee employee={employee}/>);
+				});
+    			return(<div className="container">
+					<table className="table table-striped">
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th>Age</th>
+								<th>Years</th>
+							</tr>
+						</thead>
+						<tbody>
+							{arr}
+						</tbody>
+					</table>
+				</div>);
+    		}
     	});
+		
+		ReactDOM.render(<EmployeeTable employees={Employees}/>,document.getElementById('root'));
     </script>
 </body>
 </html>
