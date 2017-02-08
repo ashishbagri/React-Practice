@@ -7,6 +7,7 @@
 <body>
     <div id='root'></div>
  
+ 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://fb.me/react-15.0.1.js"></script>
     <script src="https://fb.me/react-dom-15.0.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
@@ -50,8 +51,33 @@
 				</div>);
     		}
     	});
+
+		var App = React.createClass(function(){
+			
+			loadFromServer : function(){
+				$.ajax({
+					 url: "http://localhost:8080/api/employees"
+				}).then(function(data){
+					this.setState({employees:data._embedded.employees});
+				});	
+			},
+
+			getIntialState: function(){
+				
+				return {employees:[]};
+			},
+
+			componentDidMount:function(){
+				this.loadFromServer();
+			},
+
+			render: function(){
+				return(<EmployeeTable employees={this.state.employees}/>);
+			}
+
+		});
 		
-		ReactDOM.render(<EmployeeTable employees={Employees}/>,document.getElementById('root'));
+		ReactDOM.render(<App/>,document.getElementById('root'));
     </script>
 </body>
 </html>
